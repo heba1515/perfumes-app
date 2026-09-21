@@ -1,0 +1,40 @@
+<div class="summary-card">
+  <h2 class="summary-title">Order Summary</h2>
+
+  <div class="summary-rows">
+    <div class="summary-row">
+      <span class="label">Items ({{ totalItems() }})</span>
+      <span class="value">{{ formattedSubtotal() }}</span>
+    </div>
+
+    <div class="summary-row">
+      <span class="label">Estimated Tax (8%)</span>
+      <span class="value">{{ formattedTax() }}</span>
+    </div>
+
+    <div class="summary-row">
+      <span class="label">Shipping</span>
+      <span class="value free">FREE</span>
+    </div>
+
+    <div class="summary-divider"></div>
+
+    <div class="summary-row total-row">
+      <span class="label">Order Total</span>
+      <span class="value total-amount">{{ formattedTotal() }}</span>
+    </div>
+  </div>
+
+  <div class="checkout-action">
+    <app-button
+      variant="primary"
+      size="lg"
+      (clicked)="checkout.emit()"
+      ariaLabel="Proceed to Checkout"
+    >
+      Proceed to Checkout
+    </app-button>
+  </div>
+
+  <p class="guarantee-note">🔒 100% Secure Checkout with 30-Day Money-Back Guarantee</p>
+</div>

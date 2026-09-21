@@ -1,0 +1,30 @@
+<header class="header">
+  <div class="announcement">
+    Complimentary signature gift wrapping on all orders above $150
+  </div>
+
+  <div class="header-container">
+    <nav class="nav-links" aria-label="Main navigation">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">Home</a>
+      <a routerLink="/products" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+        class="nav-link">Shop</a>
+      <a routerLink="/products" class="nav-link">Categories</a>
+      <a routerLink="/products" class="nav-link">The Atelier</a>
+    </nav>
+
+    <a routerLink="/products" class="brand" aria-label="ODORATUS home">ODORATUS</a>
+
+    <div class="nav-utilities">
+      <div class="search-control">
+        <app-product-search [(searchTerm)]="searchTerm" (searchChange)="onSearch($event)" />
+      </div>
+
+      <a routerLink="/cart" routerLinkActive="active" class="cart-link" aria-label="Shopping cart">
+        <img src="/assets/header-shopping-bag.svg" alt="" class="cart-icon" />
+        @if (cartStore.totalItems() > 0) {
+        <span class="cart-badge">{{ cartStore.totalItems() }}</span>
+        }
+      </a>
+    </div>
+  </div>
+</header>

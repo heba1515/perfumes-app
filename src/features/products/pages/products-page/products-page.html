@@ -1,0 +1,56 @@
+<div class="products-page-container">
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a routerLink="/" class="crumb-link">Home</a>
+    <span class="crumb-separator">›</span>
+    <a routerLink="/products" class="crumb-link">Shop</a>
+    <span class="crumb-separator">›</span>
+    <span class="crumb-current">All Fragrances</span>
+  </nav>
+
+  <header class="page-header">
+    <h1 class="page-title">All Fragrances</h1>
+    <p class="page-subtitle">Cultivated formulations curated to command atmospheric space.</p>
+    <!-- <div class="search-bar-wrapper">
+      <app-product-search
+        [searchTerm]="filterStore.searchTerm()"
+        (searchChange)="onSearch($event)"
+      />
+    </div> -->
+  </header>
+
+  <div class="catalog-layout">
+    <aside class="sidebar-column">
+      <app-product-filters
+        [selectedCategory]="filterStore.selectedCategory()"
+        [inStockOnly]="filterStore.inStockOnly()"
+        [minPrice]="filterStore.minPrice()"
+        [maxPrice]="filterStore.maxPrice()"
+        [scentFamilies]="filterStore.scentFamilies()"
+        [occasions]="filterStore.occasions()"
+        (categoryChange)="onCategoryChange($event)"
+        (inStockChange)="onInStockChange($event)"
+        (minPriceChange)="onMinPriceChange($event)"
+        (maxPriceChange)="onMaxPriceChange($event)"
+        (scentFamilyToggle)="onScentFamilyToggle($event)"
+        (occasionToggle)="onOccasionToggle($event)"
+        (resetFilters)="onResetFilters()"
+      />
+    </aside>
+
+    <main class="content-column">
+      <app-product-sort
+        [selectedSort]="filterStore.selectedSort()"
+        [totalCount]="products().length"
+        (sortChange)="onSortChange($event)"
+      />
+
+      @if (loading()) {
+      <div class="loading-state">
+        <p>Loading products...</p>
+      </div>
+      } @else {
+      <app-product-grid [products]="products()" (addToCart)="onAddToCart($event)" />
+      }
+    </main>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<div class="product-grid">
+  @for (product of products(); track product.id) {
+    <app-product-card
+      [product]="product"
+      (addToCart)="addToCart.emit($event)"
+    />
+  } @empty {
+    <div class="empty-state">
+      <p class="empty-title">No products found</p>
+      <p class="empty-subtitle">Try adjusting your search or filters to find what you are looking for.</p>
+    </div>
+  }
+</div>

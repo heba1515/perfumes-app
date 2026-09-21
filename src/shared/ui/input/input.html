@@ -1,0 +1,15 @@
+<div class="input-wrapper">
+  @if (label()) {
+    <label [attr.for]="id()" class="input-label">{{ label() }}</label>
+  }
+  <input
+    [id]="id()"
+    [type]="type()"
+    [value]="value()"
+    [placeholder]="placeholder()"
+    [disabled]="disabled()"
+    [attr.aria-label]="ariaLabel() || label()"
+    (input)="onInput($event)"
+    class="form-control"
+  />
+</div>

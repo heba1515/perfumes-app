@@ -1,0 +1,177 @@
+.header {
+  background-color: #faf8f5;
+  border-bottom: 1px solid #ebe6de;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.announcement {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 1.875rem;
+  padding: 0.5rem 1rem;
+  background: #1a1a1a;
+  color: #ffffff;
+  font-family: Manrope, 'Segoe UI', sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.header-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  min-height: 5.625rem;
+  padding: 0 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.brand {
+  display: block;
+  flex-shrink: 0;
+  align-items: center;
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 2.375rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  line-height: 1;
+  text-decoration: none;
+  color: #1a1a1a;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  flex: 1;
+}
+
+.nav-link {
+  font-family: Manrope, 'Segoe UI', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1;
+  color: #605a54;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: #1a1a1a;
+  }
+
+  &.active {
+    color: #1a1a1a;
+    font-weight: 600;
+  }
+}
+
+.nav-utilities {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2rem;
+  flex: 1;
+}
+
+.search-control {
+  display: flex;
+  align-items: center;
+  width: 12.5rem;
+  border: 1px solid #ebe6de;
+  border-radius: 999px;
+  background: transparent;
+  overflow: hidden;
+}
+
+.search-control app-product-search {
+  display: block;
+  width: 100%;
+}
+
+.cart-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: #1a1a1a;
+  text-decoration: none;
+}
+
+.cart-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.cart-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.25rem;
+  min-height: 1.25rem;
+  padding: 0 0.375rem;
+  background-color: #c5a880;
+  color: #ffffff;
+  border-radius: 999px;
+  font-family: Manrope, 'Segoe UI', sans-serif;
+  font-size: 0.625rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+@media (max-width: 900px) {
+  .header-container {
+    min-height: auto;
+    padding: 1rem 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .brand {
+    order: -1;
+    width: 100%;
+    text-align: center;
+    font-size: 2rem;
+  }
+
+  .nav-links,
+  .nav-utilities {
+    flex: auto;
+  }
+
+  .nav-links {
+    gap: 1rem;
+  }
+
+  .nav-utilities {
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .nav-links {
+    width: 100%;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .nav-link {
+    font-size: 0.625rem;
+  }
+
+  .nav-utilities {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .search-control {
+    flex: 1;
+    width: auto;
+  }
+}

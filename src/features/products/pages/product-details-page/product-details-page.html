@@ -1,0 +1,170 @@
+<div class="details-page-container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a routerLink="/" class="breadcrumb-link">Home</a>
+    <span class="breadcrumb-separator">›</span>
+    <a routerLink="/products" class="breadcrumb-link">Shop</a>
+    <span class="breadcrumb-separator">›</span>
+    <a routerLink="/products" class="breadcrumb-link">Fragrances</a>
+    <span class="breadcrumb-separator">›</span>
+    <span class="breadcrumb-current">{{ product()?.name ?? 'Product' }}</span>
+  </nav>
+
+  @if (loading()) {
+  <div class="loading-state">
+    <p>Loading product details...</p>
+  </div>
+  } @else if (product(); as item) {
+  <article class="product-layout">
+    <div class="gallery-column">
+      <div class="main-image-wrapper">
+        <img [src]="selectedGalleryImage()" [alt]="item.name" class="main-image" />
+      </div>
+
+      <div class="thumbnail-row" aria-label="Product images">
+        @for (image of galleryImages(); track $index) {
+        <button type="button" class="thumbnail-button" [class.active]="$index === selectedGalleryIndex()"
+          (click)="onSelectGalleryImage($index)" aria-label="View product image {{$index + 1}}">
+          <img [src]="image" [alt]="item.name + ' thumbnail ' + ($index + 1)" />
+        </button>
+        }
+      </div>
+    </div>
+
+    <div class="info-column">
+      <div class="spec-header">
+        <div class="tag-row">
+          <span class="tag-pill">Scent Family: {{ scentFamily() }}</span>
+          <span class="tag-pill">Occasion: {{ occasion() }}</span>
+        </div>
+
+        <h1 class="item-title">{{ item.name }}</h1>
+
+        <div class="price-status-row">
+          <span class="item-price">{{ formattedPrice() }}</span>
+          @if (item.inStock) {
+          <span class="stock-status"><span class="status-dot"></span>Available in Atelier</span>
+          } @else {
+          <span class="stock-status out-of-stock"><span class="status-dot"></span>Currently unavailable</span>
+          }
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="option-block">
+        <h3>Select Volume</h3>
+        <div class="size-row">
+          @for (opt of item.options?.length ? item.options : ['30 ml', '50 ml', '100 ml']; track opt; let idx = $index)
+          {
+          <button type="button" class="size-card" [class.selected]="selectedOption() === opt"
+            (click)="onSelectOption(opt)">
+            <span class="size-label">{{ opt }}</span>
+            <span class="size-price">{{ sizePrices()[idx] }}</span>
+          </button>
+          }
+        </div>
+      </div>
+
+      <div class="gift-wrap-row">
+        <div class="gift-copy">
+          <strong>Complimentary Signature Gift Wrapping</strong>
+          <span>Encased in linen paper box with custom wax seal stamp.</span>
+        </div>
+        <button type="button" class="toggle-switch" [class.selected]="giftWrapSelected()"
+          [attr.aria-pressed]="giftWrapSelected()" (click)="onToggleGiftWrap()" aria-label="Toggle gift wrapping">
+          <span class="toggle-knob"></span>
+        </button>
+      </div>
+
+      <div class="purchase-row">
+        <div class="quantity-picker" aria-label="Quantity selector">
+          <button type="button" class="qty-btn" [disabled]="quantity() <= 1" (click)="onQuantityChange(quantity() - 1)"
+            aria-label="Decrease quantity">-</button>
+          <span class="qty-value">{{ quantity() }}</span>
+          <button type="button" class="qty-btn" [disabled]="quantity() >= 99" (click)="onQuantityChange(quantity() + 1)"
+            aria-label="Increase quantity">+</button>
+        </div>
+
+        <button type="button" class="primary-action" [disabled]="!item.inStock" (click)="onAddToCart()">
+          Add to Cart / {{ formattedPrice() }}
+        </button>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="scent-anatomy">
+        <h2>Scent Anatomy</h2>
+        <p>
+          {{ item.name }} wraps around the skin like vintage vellum paper. It opens with bright top notes,
+          shifts to clean papyrus and warm, rich sandalwood, and settles into dry cardamom and amber.
+        </p>
+
+        <dl class="notes-list">
+          <div class="note-row">
+            <dt>Top Notes</dt>
+            <dd>Sicilian Bergamot, Pink Pepper</dd>
+          </div>
+          <div class="divider"></div>
+          <div class="note-row">
+            <dt>Heart Notes</dt>
+            <dd>Egyptian Jasmine Sambac, Papyrus</dd>
+          </div>
+          <div class="divider"></div>
+          <div class="note-row">
+            <dt>Base Notes</dt>
+            <dd>West Indian Sandalwood, Cardamom, Amber</dd>
+          </div>
+          <div class="divider"></div>
+        </dl>
+      </div>
+
+      @if (addedNotification()) {
+      <div class="success-banner" role="status">
+        <span>✓ Added to cart!</span>
+        <a routerLink="/cart" class="view-cart-link">View Cart</a>
+      </div>
+      }
+    </div>
+  </article>
+
+  <section class="related-products-section">
+    <header class="related-header">
+      <h2>Olfactory Companions</h2>
+      <p>FRAGRANCES OF SYNONYMOUS SOPHISTICATION</p>
+    </header>
+
+    <div class="related-grid">
+      @for (related of relatedProducts(); track related.id) {
+      <article class="related-card">
+        <a [routerLink]="['/products', related.id]" class="related-card-link">
+          <div class="related-image-wrap">
+            <img [src]="related.imageUrl" [alt]="related.name" class="related-image" />
+          </div>
+
+          <div class="related-details">
+            <div class="related-name-row">
+              <div class="related-copy">
+                <h3>{{ related.name }}</h3>
+                <p>{{ related.description }}</p>
+              </div>
+              <span class="related-price">{{ formatRelatedPrice(related.price) }}</span>
+            </div>
+
+            <button type="button" class="related-action"
+              (click)="$event.preventDefault(); $event.stopPropagation(); addRelatedToCart(related)">
+              Add to Cart +
+            </button>
+          </div>
+        </a>
+      </article>
+      }
+    </div>
+  </section>
+  } @else {
+  <div class="not-found-state">
+    <h2>Product Not Found</h2>
+    <p>The product you are looking for does not exist or has been removed.</p>
+    <a routerLink="/products" class="return-link">Return to Catalog</a>
+  </div>
+  }
+</div>

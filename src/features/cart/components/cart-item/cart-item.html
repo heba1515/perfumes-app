@@ -1,0 +1,52 @@
+<div class="cart-item-row">
+  <div class="item-visual">
+    @if (item().imageUrl) {
+      <img [src]="item().imageUrl" [alt]="item().name" class="thumbnail" />
+    } @else {
+      <div class="placeholder-icon">📦</div>
+    }
+  </div>
+
+  <div class="item-details">
+    <a [routerLink]="['/products', item().productId]" class="item-name">
+      {{ item().name }}
+    </a>
+    @if (item().selectedOption) {
+      <span class="item-option">Option: {{ item().selectedOption }}</span>
+    }
+    <span class="unit-price">{{ unitPrice() }} each</span>
+  </div>
+
+  <div class="quantity-controls">
+    <button
+      type="button"
+      class="qty-btn"
+      (click)="onQuantityChange(-1)"
+      [disabled]="item().quantity <= 1"
+      aria-label="Decrease quantity"
+    >
+      -
+    </button>
+    <span class="qty-count">{{ item().quantity }}</span>
+    <button
+      type="button"
+      class="qty-btn"
+      (click)="onQuantityChange(1)"
+      aria-label="Increase quantity"
+    >
+      +
+    </button>
+  </div>
+
+  <div class="price-remove">
+    <span class="line-total">{{ lineTotal() }}</span>
+    <button
+      type="button"
+      class="remove-btn"
+      (click)="onRemove()"
+      [attr.aria-label]="'Remove ' + item().name + ' from cart'"
+    >
+      Remove
+    </button>
+  </div>
+</div>

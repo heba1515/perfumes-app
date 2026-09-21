@@ -1,0 +1,49 @@
+<div class="cart-page-container">
+  <header class="cart-header">
+    <h1 class="cart-title">Shopping Cart</h1>
+    @if (cartStore.totalItems() > 0) {
+      <button type="button" class="clear-cart-btn" (click)="onClearCart()">
+        Clear All Items
+      </button>
+    }
+  </header>
+
+  @if (checkoutSuccess()) {
+    <div class="checkout-success-banner" role="alert">
+      <h2>🎉 Order Placed Successfully!</h2>
+      <p>Thank you for your order. A confirmation has been sent to your email.</p>
+      <a routerLink="/products" class="continue-shopping-btn">Continue Shopping</a>
+    </div>
+  } @else if (cartStore.items().length > 0) {
+    <div class="cart-layout">
+      <main class="items-list-column">
+        @for (item of cartStore.items(); track item.id) {
+          <app-cart-item
+            [item]="item"
+            (quantityChange)="onQuantityChange($event)"
+            (itemRemove)="onRemoveItem($event)"
+          />
+        }
+      </main>
+
+      <aside class="summary-column">
+        <app-cart-summary
+          [subtotal]="cartStore.subtotal()"
+          [tax]="cartStore.tax()"
+          [total]="cartStore.total()"
+          [totalItems]="cartStore.totalItems()"
+          (checkout)="onCheckout()"
+        />
+      </aside>
+    </div>
+  } @else {
+    <div class="empty-cart-state">
+      <span class="empty-icon">🛒</span>
+      <h2>Your cart is currently empty</h2>
+      <p>Discover something you will love from our latest product catalog.</p>
+      <a routerLink="/products" class="browse-btn">
+        Browse Products
+      </a>
+    </div>
+  }
+</div>

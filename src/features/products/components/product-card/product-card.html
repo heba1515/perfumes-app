@@ -1,0 +1,23 @@
+<article class="product-card" [class.out-of-stock]="!product().inStock" data-node-id="1:39">
+  <div class="image-wrapper">
+    <a [routerLink]="['/products', product().id]" class="image-link" aria-label="View details for {{ product().name }}">
+      <img [src]="product().imageUrl" [alt]="product().name" loading="lazy" class="product-image" />
+    </a>
+  </div>
+
+  <div class="card-body">
+    <div class="title-row">
+      <a [routerLink]="['/products', product().id]" class="title-link">
+        <h3 class="product-title">{{ product().name }}</h3>
+      </a>
+      <span class="price">{{ formattedPrice() }}</span>
+    </div>
+
+    <p class="product-description">{{ product().description }}</p>
+
+    <button type="button" class="add-to-cart-btn" [disabled]="!product().inStock" (click)="onAddToCart($event)"
+      [attr.aria-label]="'Add ' + product().name + ' to cart'">
+      Add to Cart +
+    </button>
+  </div>
+</article>

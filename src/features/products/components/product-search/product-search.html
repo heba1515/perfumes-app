@@ -1,0 +1,10 @@
+<div class="search-container">
+  <img src="/assets/header-search.svg" alt="" class="search-icon" />
+  <input type="search" [value]="searchTerm()" (input)="onInput($event)" placeholder="Search fragrances..."
+    aria-label="Search products" class="search-input" />
+  @if (searchTerm()) {
+  <button type="button" class="clear-button" (click)="onClear()" aria-label="Clear search">
+
+  </button>
+  }
+</div>
