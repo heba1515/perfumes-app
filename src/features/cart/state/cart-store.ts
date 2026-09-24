@@ -20,12 +20,16 @@ export class CartStore {
     this.items().reduce((sum, item) => sum + item.price * item.quantity, 0),
   );
 
-  readonly tax = computed(() => Math.round(this.subtotal() * 0.08 * 100) / 100);
-
-  readonly total = computed(() => this.subtotal() + this.tax());
+  readonly total = computed(() => this.subtotal());
 
   addItem(
-    product: { id: string; name: string; price: number; imageUrl?: string },
+    product: {
+      id: string;
+      name: string;
+      description?: string;
+      price: number;
+      imageUrl?: string;
+    },
     quantity = 1,
     selectedOption?: string,
   ): void {
@@ -46,6 +50,7 @@ export class CartStore {
         id: `${product.id}-${selectedOption ?? 'default'}`,
         productId: product.id,
         name: product.name,
+        description: product.description,
         price: product.price,
         imageUrl: product.imageUrl,
         quantity,

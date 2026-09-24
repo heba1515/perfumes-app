@@ -3,8 +3,16 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
-    redirectTo: 'products',
+    loadComponent: () => import('@features/home/pages/home-page/home-page').then((m) => m.HomePage),
+  },
+  {
+    path: 'home',
+    loadComponent: () => import('@features/home/pages/home-page/home-page').then((m) => m.HomePage),
+  },
+  {
+    path: 'categories',
+    loadComponent: () =>
+      import('@features/categories/pages/categories-page/categories-page').then((m) => m.CategoriesPage),
   },
   {
     path: 'products',
@@ -18,6 +26,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'products',
+    redirectTo: '',
   },
 ];

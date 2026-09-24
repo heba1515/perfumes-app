@@ -1,4 +1,9 @@
-export type ProductCategory = 'electronics' | 'footwear' | 'apparel' | 'accessories';
+export type ProductCategory =
+  | 'Pure Extractions'
+  | 'Private Reserve'
+  | 'Atelier Oils'
+  | 'Discovery Sets'
+  ;
 
 export type ScentFamily = 'Floral' | 'Woody' | 'Oriental' | 'Fresh';
 export type Occasion = 'Personal Use' | 'Wedding' | 'Gift Sets' | 'Birthday';

@@ -11,13 +11,11 @@ import { Button } from '@shared/ui/button/button';
 })
 export class CartSummaryComponent {
   readonly subtotal = input.required<number>();
-  readonly tax = input.required<number>();
   readonly total = input.required<number>();
   readonly totalItems = input.required<number>();
 
   readonly checkout = output<void>();
 
   protected readonly formattedSubtotal = computed(() => formatPrice(this.subtotal()));
-  protected readonly formattedTax = computed(() => formatPrice(this.tax()));
   protected readonly formattedTotal = computed(() => formatPrice(this.total()));
 }

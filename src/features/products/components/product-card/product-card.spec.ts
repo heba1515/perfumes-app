@@ -13,11 +13,14 @@ describe('ProductCard', () => {
     name: 'Test Product',
     description: 'A test product description',
     price: 99.99,
-    category: 'electronics',
+    category: 'floral',
     imageUrl: 'https://example.com/test.jpg',
     rating: 4.5,
     reviewCount: 10,
     inStock: true,
+    scentFamily: 'Floral',
+    occasion: 'Wedding',
+    options: ['30 ml'],
   };
 
   beforeEach(async () => {

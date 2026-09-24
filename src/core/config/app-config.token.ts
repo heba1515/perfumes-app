@@ -6,6 +6,12 @@ export interface AppConfig {
   readonly apiBaseUrl: string;
   readonly appName: string;
   readonly useMockApi?: boolean;
+  readonly whatsappNumber: string;
+  readonly sanity: {
+    readonly projectId: string;
+    readonly dataset: string;
+    readonly apiVersion: string;
+  };
 }
 
 export const APP_CONFIG = new InjectionToken<AppConfig>('APP_CONFIG');

@@ -1,14 +1,15 @@
-import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { APP_CONFIG } from '@core/config';
+import { SanityService } from '@core/sanity';
 import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, from, map } from 'rxjs';
 import {
   Product,
   ProductCategory,
   ProductFilterCriteria,
   ProductSortOption,
 } from '../models/product.model';
+import { PRODUCT_QUERY, PRODUCTS_QUERY } from './products.queries.groq';
 import { filterProducts, sortProducts } from '../utils/product.utils';
 
 /**
@@ -21,7 +22,7 @@ const MOCK_PRODUCTS: readonly Product[] = [
     name: 'Fleur de Lune',
     description: 'Floral / Jasmine & White Musk',
     price: 195,
-    category: 'electronics',
+    category: 'Pure Extractions',
     imageUrl: 'assets/products/fleur-de-lune.png',
     rating: 4.8,
     reviewCount: 142,
@@ -35,7 +36,7 @@ const MOCK_PRODUCTS: readonly Product[] = [
     name: 'Santal Parchment',
     description: 'Woody / Sandalwood & Cardamom',
     price: 220,
-    category: 'footwear',
+    category: 'Discovery Sets',
     imageUrl: 'assets/products/santal-parchment.png',
     rating: 4.7,
     reviewCount: 98,
@@ -49,7 +50,7 @@ const MOCK_PRODUCTS: readonly Product[] = [
     name: 'Noir Cocoon',
     description: 'Oriental / Tobacco & Amber',
     price: 240,
-    category: 'accessories',
+    category: 'Discovery Sets',
     imageUrl: 'assets/products/noir-cocoon.png',
     rating: 4.9,
     reviewCount: 64,
@@ -63,7 +64,7 @@ const MOCK_PRODUCTS: readonly Product[] = [
     name: "Sol d'Or",
     description: 'Fresh / Bergamot & Sea Salt',
     price: 185,
-    category: 'apparel',
+    category: 'Pure Extractions',
     imageUrl: 'assets/products/sol-dor.png',
     rating: 4.6,
     reviewCount: 53,
@@ -77,7 +78,7 @@ const MOCK_PRODUCTS: readonly Product[] = [
     name: 'Atelier Oud',
     description: 'Woody / Rich Oud & Saffron',
     price: 310,
-    category: 'electronics',
+    category: 'Atelier Oils',
     imageUrl: 'assets/products/atelier-oud.png',
     rating: 4.9,
     reviewCount: 210,
@@ -91,7 +92,7 @@ const MOCK_PRODUCTS: readonly Product[] = [
     name: 'Rose Absolute',
     description: 'Floral / Damask Rose & Cedar',
     price: 205,
-    category: 'accessories',
+    category: 'Private Reserve',
     imageUrl: 'assets/products/rose-absolute.png',
     rating: 4.5,
     reviewCount: 39,
@@ -106,8 +107,8 @@ const MOCK_PRODUCTS: readonly Product[] = [
   providedIn: 'root',
 })
 export class ProductsApi {
-  private readonly http = inject(HttpClient);
   private readonly config = inject(APP_CONFIG, { optional: true });
+  private readonly sanity = inject(SanityService);
 
   private get baseUrl(): string {
     return this.config?.apiBaseUrl ?? 'http://localhost:4200/api';
@@ -117,8 +118,11 @@ export class ProductsApi {
     filters?: ProductFilterCriteria,
     sort: ProductSortOption = 'featured',
   ): Observable<Product[]> {
-    // When real API endpoint is configured, HttpClient is queried. Falls back to mock data gracefully.
-    return this.http.get<Product[]>(`${this.baseUrl}/products`).pipe(
+    if (this.config?.useMockApi) {
+      return of(this.getMockProducts(filters, sort));
+    }
+
+    return from(this.sanity.fetch<Product[]>(PRODUCTS_QUERY)).pipe(
       map((products) => {
         let result = products;
         if (filters) {
@@ -126,26 +130,33 @@ export class ProductsApi {
         }
         return sortProducts(result, sort);
       }),
-      catchError(() => {
-        let result = [...MOCK_PRODUCTS];
-        if (filters) {
-          result = filterProducts(result, filters);
-        }
-        return of(sortProducts(result, sort));
-      }),
+      catchError(() => of(this.getMockProducts(filters, sort))),
     );
   }
 
   getProductById(id: string): Observable<Product | null> {
-    return this.http.get<Product>(`${this.baseUrl}/products/${id}`).pipe(
-      catchError(() => {
-        const found = MOCK_PRODUCTS.find((p) => p.id === id) ?? null;
-        return of(found);
-      }),
+    if (this.config?.useMockApi) {
+      return of(MOCK_PRODUCTS.find((product) => product.id === id) ?? null);
+    }
+
+    return from(this.sanity.fetch<Product | null>(PRODUCT_QUERY, { id })).pipe(
+      catchError(() => of(MOCK_PRODUCTS.find((product) => product.id === id) ?? null)),
     );
   }
 
   getCategories(): Observable<ProductCategory[]> {
-    return of(['electronics', 'footwear', 'apparel', 'accessories']);
+    return of(['Pure Extractions', 'Private Reserve', 'Atelier Oils', 'Discovery Sets']);
+  }
+
+  private getMockProducts(
+    filters: ProductFilterCriteria | undefined,
+    sort: ProductSortOption,
+  ): Product[] {
+    let result = [...MOCK_PRODUCTS];
+    if (filters) {
+      result = filterProducts(result, filters);
+    }
+    return sortProducts(result, sort);
   }
 }
+

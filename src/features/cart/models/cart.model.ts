@@ -2,6 +2,7 @@ export interface CartItem {
   readonly id: string;
   readonly productId: string;
   readonly name: string;
+  readonly description?: string;
   readonly price: number;
   readonly imageUrl?: string;
   quantity: number;
@@ -11,6 +12,5 @@ export interface CartItem {
 export interface CartSummary {
   readonly totalItems: number;
   readonly subtotal: number;
-  readonly tax: number;
   readonly total: number;
 }

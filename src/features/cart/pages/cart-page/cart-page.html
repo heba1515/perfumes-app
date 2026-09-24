@@ -1,49 +1,55 @@
-<div class="cart-page-container">
+<div class="cart-page-container" data-node-id="36:43">
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a routerLink="/" class="breadcrumb-link">Home</a>
+    <span aria-hidden="true">›</span>
+    <a routerLink="/products" class="breadcrumb-link">Shop</a>
+    <span aria-hidden="true">›</span>
+    <span class="breadcrumb-current">Your Cart</span>
+  </nav>
+
   <header class="cart-header">
-    <h1 class="cart-title">Shopping Cart</h1>
-    @if (cartStore.totalItems() > 0) {
-      <button type="button" class="clear-cart-btn" (click)="onClearCart()">
-        Clear All Items
-      </button>
-    }
+    <h1 class="cart-title">Your Cart</h1>
+    <div class="cart-subtitle">
+      <span>Not ready to checkout?</span>
+      <a routerLink="/products">Continue Shopping</a>
+    </div>
   </header>
 
-  @if (checkoutSuccess()) {
-    <div class="checkout-success-banner" role="alert">
-      <h2>🎉 Order Placed Successfully!</h2>
-      <p>Thank you for your order. A confirmation has been sent to your email.</p>
-      <a routerLink="/products" class="continue-shopping-btn">Continue Shopping</a>
+  @if (cartStore.items().length > 0) {
+  <div class="cart-layout">
+    <div class="items-list-column">
+      @for (item of cartStore.items(); track item.id) {
+      <app-cart-item [item]="item" (quantityChange)="onQuantityChange($event)" (itemRemove)="onRemoveItem($event)" />
+      }
     </div>
-  } @else if (cartStore.items().length > 0) {
-    <div class="cart-layout">
-      <main class="items-list-column">
-        @for (item of cartStore.items(); track item.id) {
-          <app-cart-item
-            [item]="item"
-            (quantityChange)="onQuantityChange($event)"
-            (itemRemove)="onRemoveItem($event)"
-          />
-        }
-      </main>
 
-      <aside class="summary-column">
-        <app-cart-summary
-          [subtotal]="cartStore.subtotal()"
-          [tax]="cartStore.tax()"
-          [total]="cartStore.total()"
-          [totalItems]="cartStore.totalItems()"
-          (checkout)="onCheckout()"
-        />
-      </aside>
-    </div>
+    <aside class="summary-column">
+      <app-cart-summary [subtotal]="cartStore.subtotal()" [total]="cartStore.total()"
+        [totalItems]="cartStore.totalItems()" (checkout)="onCheckout()" />
+    </aside>
+  </div>
   } @else {
-    <div class="empty-cart-state">
-      <span class="empty-icon">🛒</span>
-      <h2>Your cart is currently empty</h2>
-      <p>Discover something you will love from our latest product catalog.</p>
-      <a routerLink="/products" class="browse-btn">
-        Browse Products
-      </a>
+  <div class="empty-cart-state">
+    <span class="empty-icon">🛒</span>
+    <h2>Your cart is currently empty</h2>
+    <p>Discover something you will love from our latest product catalog.</p>
+    <a routerLink="/products" class="browse-btn">
+      Browse Products
+    </a>
+  </div>
+  }
+
+  @if (recommendedProducts().length > 0) {
+  <section class="recommended-section" aria-labelledby="recommended-title">
+    <div class="recommended-heading">
+      <h2 id="recommended-title">You May Also Like</h2>
+      <p>Explore more considered compositions from the house.</p>
     </div>
+    <div class="recommended-grid">
+      @for (product of recommendedProducts(); track product.id) {
+      <app-product-card [product]="product" (addToCart)="onAddRecommendedProduct($event)" />
+      }
+    </div>
+  </section>
   }
 </div>

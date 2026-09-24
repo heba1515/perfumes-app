@@ -25,14 +25,24 @@ export class ProductFilters {
 
   readonly categories: readonly { id: ProductCategory | 'all'; label: string }[] = [
     { id: 'all', label: 'All Categories' },
-    { id: 'electronics', label: 'Pure Extractions' },
-    { id: 'footwear', label: 'Private Reserve' },
-    { id: 'apparel', label: 'Atelier Oils' },
-    { id: 'accessories', label: 'Discovery Vault' },
+    { id: 'Pure Extractions', label: 'Pure Extractions' },
+    { id: 'Private Reserve', label: 'Private Reserve' },
+    { id: 'Atelier Oils', label: 'Atelier Oils' },
+    { id: 'Discovery Sets', label: 'Discovery Sets' },
   ];
 
-  readonly scentFamilyList: readonly ScentFamily[] = ['Floral', 'Woody', 'Oriental', 'Fresh'];
-  readonly occasionList: readonly Occasion[] = ['Personal Use', 'Wedding', 'Gift Sets', 'Birthday'];
+  readonly scentFamilyList: readonly { id: ScentFamily; label: string }[] = [
+    { id: 'Floral', label: 'Floral' },
+    { id: 'Woody', label: 'Woody' },
+    { id: 'Oriental', label: 'Oriental' },
+    { id: 'Fresh', label: 'Fresh' },
+  ];
+  readonly occasionList: readonly { id: Occasion; label: string }[] = [
+    { id: 'Personal Use', label: 'Personal Use' },
+    { id: 'Wedding', label: 'Wedding' },
+    { id: 'Gift Sets', label: 'Gift Sets' },
+    { id: 'Birthday', label: 'Birthday' },
+  ];
 
   protected selectCategory(category: ProductCategory | 'all'): void {
     this.categoryChange.emit(category);

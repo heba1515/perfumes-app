@@ -1,0 +1,27 @@
+<div class="categories-page">
+  <header class="page-header">
+    <p class="eyebrow">Fragrance house</p>
+    <h1>Discover by scent family.</h1>
+    <p class="intro">
+      Explore a curated selection of radiant florals, grounding woods, seductive orientals,
+      and bright fresh blends — each crafted to create a distinct atmosphere.
+    </p>
+  </header>
+
+  <section class="categories-grid" aria-label="Fragrance categories">
+    @for (category of categories(); track category.title) {
+    <a class="category-card" [routerLink]="['/products']" [queryParams]="category.filterKey"
+      [attr.aria-label]="'Browse ' + category.title + ' fragrances'">
+      <div class="image-wrap">
+        <img [src]="category.image" [alt]="category.title + ' fragrance category'" />
+        <span class="badge">{{ category.badge }}</span>
+      </div>
+
+      <div class="card-copy">
+        <h2>{{ category.title }}</h2>
+        <p>{{ category.subtitle }}</p>
+      </div>
+    </a>
+    }
+  </section>
+</div>

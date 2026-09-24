@@ -56,6 +56,8 @@ export class ProductsPage implements OnInit {
       const maxPriceRaw = params.get('maxPrice');
       const minPrice = minPriceRaw !== null ? Number(minPriceRaw) : undefined;
       const maxPrice = maxPriceRaw !== null ? Number(maxPriceRaw) : undefined;
+      const scentFamilies = params.getAll('scentFamilies').filter(Boolean) as ScentFamily[];
+      const occasions = params.getAll('occasions').filter(Boolean) as Occasion[];
 
       this.filterStore.setSearch(search);
       this.filterStore.setCategory(category);
@@ -66,6 +68,8 @@ export class ProductsPage implements OnInit {
       this.filterStore.setMaxPrice(
         maxPrice !== undefined && Number.isFinite(maxPrice) && maxPrice >= 0 ? maxPrice : undefined,
       );
+      this.filterStore.setScents(scentFamilies);
+      this.filterStore.setOccasions(occasions);
 
       this.loadProducts();
     });
@@ -127,11 +131,13 @@ export class ProductsPage implements OnInit {
 
   onScentFamilyToggle(scent: ScentFamily): void {
     this.filterStore.toggleScentFamily(scent);
+    this.syncQueryParams();
     this.loadProducts();
   }
 
   onOccasionToggle(occasion: Occasion): void {
     this.filterStore.toggleOccasion(occasion);
+    this.syncQueryParams();
     this.loadProducts();
   }
 
@@ -157,10 +163,20 @@ export class ProductsPage implements OnInit {
         : this.filterStore.selectedSort();
     const minPrice = this.filterStore.minPrice() ?? null;
     const maxPrice = this.filterStore.maxPrice() ?? null;
+    const scentFamilies = this.filterStore.scentFamilies();
+    const occasions = this.filterStore.occasions();
 
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { q, category, sort, minPrice, maxPrice },
+      queryParams: {
+        q,
+        category,
+        sort,
+        minPrice,
+        maxPrice,
+        scentFamilies: scentFamilies.length > 0 ? scentFamilies : null,
+        occasions: occasions.length > 0 ? occasions : null,
+      },
       queryParamsHandling: 'merge',
     });
   }

@@ -9,12 +9,8 @@
     <div class="category-list">
       @for (cat of categories; track cat.id) {
       <label class="checkbox-label" [class.checked]="selectedCategory() === cat.id">
-        <input
-          type="checkbox"
-          class="checkbox-input"
-          [checked]="selectedCategory() === cat.id"
-          (change)="selectCategory(cat.id)"
-        />
+        <input type="checkbox" class="checkbox-input" [checked]="selectedCategory() === cat.id"
+          (change)="selectCategory(cat.id)" />
         <span>{{ cat.label }}</span>
       </label>
       }
@@ -27,14 +23,10 @@
     <h4 class="group-title">Scent Family</h4>
     <div class="category-list">
       @for (scent of scentFamilyList; track scent) {
-      <label class="checkbox-label" [class.checked]="isScentSelected(scent)">
-        <input
-          type="checkbox"
-          class="checkbox-input"
-          [checked]="isScentSelected(scent)"
-          (change)="toggleScent(scent)"
-        />
-        <span>{{ scent }}</span>
+      <label class="checkbox-label" [class.checked]="isScentSelected(scent.id)">
+        <input type="checkbox" class="checkbox-input" [checked]="isScentSelected(scent.id)"
+          (change)="toggleScent(scent.id)" />
+        <span>{{ scent.label }}</span>
       </label>
       }
     </div>
@@ -46,14 +38,10 @@
     <h4 class="group-title">Occasion</h4>
     <div class="category-list">
       @for (occasion of occasionList; track occasion) {
-      <label class="checkbox-label" [class.checked]="isOccasionSelected(occasion)">
-        <input
-          type="checkbox"
-          class="checkbox-input"
-          [checked]="isOccasionSelected(occasion)"
-          (change)="toggleOccasion(occasion)"
-        />
-        <span>{{ occasion }}</span>
+      <label class="checkbox-label" [class.checked]="isOccasionSelected(occasion.id)">
+        <input type="checkbox" class="checkbox-input" [checked]="isOccasionSelected(occasion.id)"
+          (change)="toggleOccasion(occasion.id)" />
+        <span>{{ occasion.label }}</span>
       </label>
       }
     </div>
@@ -66,28 +54,14 @@
     <div class="price-range-inputs">
       <label class="price-input-wrapper">
         <span class="price-input-label">Min</span>
-        <input
-          type="number"
-          min="0"
-          step="5"
-          [value]="minPrice()"
-          placeholder="0"
-          class="price-input"
-          (input)="onMinPriceChange($event)"
-        />
+        <input type="number" min="0" step="5" [value]="minPrice()" placeholder="0" class="price-input"
+          (input)="onMinPriceChange($event)" />
       </label>
       <span class="price-range-separator">—</span>
       <label class="price-input-wrapper">
         <span class="price-input-label">Max</span>
-        <input
-          type="number"
-          min="0"
-          step="5"
-          [value]="maxPrice()"
-          placeholder="500"
-          class="price-input"
-          (input)="onMaxPriceChange($event)"
-        />
+        <input type="number" min="0" step="5" [value]="maxPrice()" placeholder="500" class="price-input"
+          (input)="onMaxPriceChange($event)" />
       </label>
     </div>
   </div>
@@ -96,12 +70,7 @@
 
   <div class="filter-block">
     <label class="checkbox-label" [class.checked]="inStockOnly()">
-      <input
-        type="checkbox"
-        class="checkbox-input"
-        [checked]="inStockOnly()"
-        (change)="toggleInStock($event)"
-      />
+      <input type="checkbox" class="checkbox-input" [checked]="inStockOnly()" (change)="toggleInStock($event)" />
       <span>In Stock Only</span>
     </label>
   </div>

@@ -5,4 +5,5 @@ import { RenderMode, ServerRoute } from '@angular/ssr';
  */
 export const CART_SERVER_ROUTES: ServerRoute[] = [
   { path: 'cart', renderMode: RenderMode.Client },
+  { path: 'cart/checkout', renderMode: RenderMode.Client },
 ];
