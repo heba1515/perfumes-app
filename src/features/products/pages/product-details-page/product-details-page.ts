@@ -9,13 +9,14 @@ import {
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { SeoService } from '@core/seo';
 import { CartStore } from '@features/cart';
+import { ProductCard } from '../../components/product-card/product-card';
 import { Product } from '../../models/product.model';
 import { ProductsApi } from '../../services/products-api';
 import { formatPrice } from '../../utils/product.utils';
 
 @Component({
   selector: 'app-product-details-page',
-  imports: [RouterLink],
+  imports: [RouterLink, ProductCard],
   templateUrl: './product-details-page.html',
   styleUrl: './product-details-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

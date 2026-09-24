@@ -135,28 +135,7 @@
 
     <div class="related-grid">
       @for (related of relatedProducts(); track related.id) {
-      <article class="related-card">
-        <a [routerLink]="['/products', related.id]" class="related-card-link">
-          <div class="related-image-wrap">
-            <img [src]="related.imageUrl" [alt]="related.name" class="related-image" />
-          </div>
-
-          <div class="related-details">
-            <div class="related-name-row">
-              <div class="related-copy">
-                <h3>{{ related.name }}</h3>
-                <p>{{ related.description }}</p>
-              </div>
-              <span class="related-price">{{ formatRelatedPrice(related.price) }}</span>
-            </div>
-
-            <button type="button" class="related-action"
-              (click)="$event.preventDefault(); $event.stopPropagation(); addRelatedToCart(related)">
-              Add to Cart +
-            </button>
-          </div>
-        </a>
-      </article>
+      <app-product-card [product]="related" (addToCart)="addRelatedToCart($event)" />
       }
     </div>
   </section>
